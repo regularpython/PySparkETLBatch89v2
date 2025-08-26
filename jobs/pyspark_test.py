@@ -26,4 +26,5 @@ df = (spark.read
 df.write.partitionBy("year", "genre") \
     .parquet("s3a://batch89-pyspark/destination2/", mode="overwrite")
 print('Hello world!')
+print('Hi this is sairam!')
 job.commit()
