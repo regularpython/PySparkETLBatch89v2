@@ -25,5 +25,5 @@ jobs:
       # Step 3: Upload the PySpark script to S3
       - name: Upload Script to S3
         run: |
-          aws s3 cp PySparkETLBatch89v2/jobs/pyspark_test.py \
+          aws s3 cp jobs/pyspark_test.py \
           s3://batch89-pyspark/PySparkScripts/pyspark_test.py
