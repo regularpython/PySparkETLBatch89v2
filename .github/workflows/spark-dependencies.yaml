@@ -33,7 +33,7 @@ jobs:
             -v ${PWD}:/modules \
             -w /modules \
             public.ecr.aws/sam/build-python3.11:latest \
-            bash -c "pip install --only-binary=:all: -r requirements.txt --target glue_bundle && cd glue_bundle && zip -r ../glue_bundle-1.0-py3-none-any.whl ."
+            bash -c "pip install --only-binary=:all: -r requirements.txt --target glue_bundle && cd glue_bundle && zip -r ../glue_dsr_bundle-1.0-py3-none-any.whl ."
 
       # Step 5: Upload wheel to S3
       - name: Upload artifact to S3
