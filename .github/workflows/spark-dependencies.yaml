@@ -24,6 +24,7 @@ jobs:
       - name: Create module folder
         run: |
           mkdir -p modules/glue_bundle
+          cp requirements.txt modules/glue_bundle/
 
       # Step 4: Package dependency using Docker (Amazon SAM Python build image)
       - name: Build Glue Bundle
