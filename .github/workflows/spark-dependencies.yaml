@@ -1,0 +1,45 @@
+name: Deploy PySpark Dependency Module
+
+on:
+  push:
+    branches:
+      - main   # change branch if needed
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      # Step 2: Setup Python (optional, but helps lint/setup.py check)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Step 3: Create glue_bundle folder
+      - name: Create module folder
+        run: |
+          mkdir -p modules/glue_bundle
+
+      # Step 4: Package dependency using Docker (Amazon SAM Python build image)
+      - name: Build Glue Bundle
+        run: |
+          cd modules
+          docker run --rm --platform=linux/amd64 \
+            -v ${PWD}:/modules \
+            -w /modules \
+            public.ecr.aws/sam/build-python3.11:latest \
+            bash -c "pip install --only-binary=:all: -r requirements.txt --target glue_bundle && cd glue_bundle && zip -r ../glue_bundle-1.0-py3-none-any.whl ."
+
+      # Step 5: Upload wheel to S3
+      - name: Upload artifact to S3
+        run: |
+          aws s3 cp modules/glue_bundle-1.0-py3-none-any.whl s3://<YOUR_BUCKET_NAME>/glue_modules/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-south-1   # change to your AWS region
