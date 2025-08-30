@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: glue_bundle
+Version: 1.0
+Requires-Dist: pydantic==2.9.2
+Requires-Dist: annotated-types==0.7.0
+Requires-Dist: typing-extensions==4.15.0
+Dynamic: requires-dist

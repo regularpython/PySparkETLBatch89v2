@@ -1,0 +1,5 @@
+
+kpython:S2208*"GImport only needed names or import the module and then use its members.(¾ƒ¤›øÿÿÿÿ8Ã¿·£Ž3
+|python:S2737"XAdd logic to this except clause or eliminate it and rethrow the exception automatically.(ÏõîËûÿÿÿÿ8Ã¿·£Ž3
+<python:S125$"Remove this commented out code.(Çý–|8‡îº£Ž3
+Bpython:S125="Remove this commented out code.(¥ÌÐ´ùÿÿÿÿ8Ë‹á£Ž3
