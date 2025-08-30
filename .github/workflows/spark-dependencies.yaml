@@ -14,7 +14,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      # Step 2: Setup Python (optional, but helps lint/setup.py check)
+      # Step 2: Setup Python (optional, for lint/setup.py checks)
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -24,17 +24,16 @@ jobs:
       - name: Create module folder
         run: |
           mkdir -p modules/glue_bundle
-          cp requirements.txt modules/glue_bundle/
 
-      # Step 4: Package dependency using Docker (Amazon SAM Python build image)
+      # Step 4: Package dependency using Docker
       - name: Build Glue Bundle
         run: |
           cd modules
           docker run --rm --platform=linux/amd64 \
-            -v ${PWD}:/modules \
-            -w /modules \
+            -v ${PWD}/..:/workspace \
+            -w /workspace/modules \
             public.ecr.aws/sam/build-python3.11:latest \
-            bash -c "pip install --only-binary=:all: -r requirements.txt --target glue_bundle && cd glue_bundle && zip -r ../glue_dsr_bundle-1.0-py3-none-any.whl ."
+            bash -c "pip install --only-binary=:all: -r /workspace/requirements.txt --target glue_bundle && cd glue_bundle && zip -r ../glue_bundle-1.0-py3-none-any.whl ."
 
       # Step 5: Upload wheel to S3
       - name: Upload artifact to S3
